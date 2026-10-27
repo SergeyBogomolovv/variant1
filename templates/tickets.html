@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Мои обращения{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>Мои обращения</h2>
+  <a href="{% url 'ticket_create' %}" class="btn btn-primary">
+    Создать обращение
+  </a>
+</div>
+
+{% for ticket in tickets %}
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">{{ ticket.topic }}</h5>
+
+    <p>{{ ticket.description }}</p>
+
+    <p class="mb-1">
+      Приоритет: {{ ticket.get_priority_display }}
+    </p>
+    <p class="mb-1">
+      Статус: {{ ticket.get_status_display }}
+    </p>
+    <p class="mb-1">
+      Дата обращения: {{ ticket.request_date|date:"d.m.Y" }}
+    </p>
+    <p>
+      Желаемая дата решения: {{ ticket.desired_date|date:"d.m.Y" }}
+    </p>
+
+    {% if ticket.status == "closed" %}
+      {% if ticket.feedback %}
+        <p class="text-success">
+          Отзыв: {{ ticket.feedback.text }}
+        </p>
+      {% else %}
+        <a href="{% url 'feedback_create' ticket.pk %}"
+           class="btn btn-outline-primary">
+          Оставить отзыв
+        </a>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% empty %}
+<p>У вас пока нет обращений.</p>
+{% endfor %}
+{% endblock %}
