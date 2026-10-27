@@ -37,13 +37,33 @@ class LoginForm(AuthenticationForm):
 
 
 class TicketForm(forms.ModelForm):
+    topic = forms.ChoiceField(
+        label="Тема проблемы",
+        choices=[
+            ("Сбой программного обеспечения", "Сбой программного обеспечения"),
+            (
+                "Неисправность компьютерного оборудования",
+                "Неисправность компьютерного оборудования",
+            ),
+            (
+                "Проблемы с сетевым подключением и доступом",
+                "Проблемы с сетевым подключением и доступом",
+            ),
+        ],
+    )
+
+    request_date = forms.DateField(
+        label="Дата обращения",
+        input_formats=["%d.%m.%Y"],
+        widget=forms.DateInput(format="%d.%m.%Y", attrs={"placeholder": "ДД.ММ.ГГГГ"}),
+    )
+
     class Meta:
         model = Ticket
         fields = ["topic", "description", "desired_date", "request_date", "priority"]
         widgets = {
             "description": forms.Textarea(attrs={"rows": 3}),
             "desired_date": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
-            "request_date": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
         }
 
     def __init__(self, *args, **kwargs):

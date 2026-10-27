@@ -1,13 +1,43 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Мои обращения{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4 page-header">
   <h2>Мои обращения</h2>
   <a href="{% url 'ticket_create' %}" class="btn btn-primary">
     Создать обращение
   </a>
+</div>
+
+<div
+  id="helpdeskCarousel"
+  class="carousel slide mb-4"
+  data-bs-ride="carousel"
+  data-bs-interval="3000"
+>
+  <div class="carousel-inner rounded">
+    <div class="carousel-item active">
+      <img src="{% static 'img/slide1.jpg' %}" class="d-block w-100 slider-img" alt="Слайд 1">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'img/slide2.jpg' %}" class="d-block w-100 slider-img" alt="Слайд 2">
+    </div>
+  </div>
+
+  <button class="carousel-control-prev" type="button"
+          data-bs-target="#helpdeskCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+    <span class="visually-hidden">Назад</span>
+  </button>
+
+  <button class="carousel-control-next" type="button"
+          data-bs-target="#helpdeskCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+    <span class="visually-hidden">Вперед</span>
+  </button>
 </div>
 
 {% for ticket in tickets %}
